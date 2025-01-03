@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderExplorer", "FolderExplorer\FolderExplorer.csproj", "{BFB70088-0C4F-4223-A1C6-49289BE00617}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CliWeather", "CliWeather\CliWeather.csproj", "{469091CF-7662-40D7-A5DB-66085F6B47C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{BFB70088-0C4F-4223-A1C6-49289BE00617}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFB70088-0C4F-4223-A1C6-49289BE00617}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFB70088-0C4F-4223-A1C6-49289BE00617}.Release|Any CPU.Build.0 = Release|Any CPU
+		{469091CF-7662-40D7-A5DB-66085F6B47C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{469091CF-7662-40D7-A5DB-66085F6B47C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{469091CF-7662-40D7-A5DB-66085F6B47C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{469091CF-7662-40D7-A5DB-66085F6B47C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
