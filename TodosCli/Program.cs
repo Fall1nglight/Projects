@@ -2,5 +2,9 @@
 
 class Program
 {
-    public static void Main(string[] args) { }
+    public static async Task Main(string[] args)
+    {
+        TodoManager manager = new TodoManager();
+        await manager.Load();
+    }
 }
