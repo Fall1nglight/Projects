@@ -2,7 +2,7 @@
 
 using System.ComponentModel;
 
-namespace CliWeather.Enums;
+namespace WeatherCli.Enums;
 
 public enum Languages
 {

@@ -1,6 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming
 
-namespace CliWeather.Enums;
+namespace WeatherCli.Enums;
 
 public enum Units
 {

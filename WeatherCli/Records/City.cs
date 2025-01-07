@@ -2,7 +2,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace CliWeather.Records;
+namespace WeatherCli.Records;
 
 public record City(
     string? Name = null,

@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderExplorer", "FolderExplorer\FolderExplorer.csproj", "{BFB70088-0C4F-4223-A1C6-49289BE00617}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CliWeather", "CliWeather\CliWeather.csproj", "{469091CF-7662-40D7-A5DB-66085F6B47C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherCli", "WeatherCli\WeatherCli.csproj", "{469091CF-7662-40D7-A5DB-66085F6B47C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

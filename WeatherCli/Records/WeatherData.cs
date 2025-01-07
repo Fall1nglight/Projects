@@ -2,7 +2,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace CliWeather.Records;
+namespace WeatherCli.Records;
 
 public record Coord(double? Lon = null, double? Lat = null);
 

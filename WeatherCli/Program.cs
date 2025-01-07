@@ -1,9 +1,9 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
-using CliWeather.Enums;
-using CliWeather.Records;
+using WeatherCli.Enums;
+using WeatherCli.Records;
 
-namespace CliWeather;
+namespace WeatherCli;
 
 class Program
 {
