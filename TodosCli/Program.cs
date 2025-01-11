@@ -6,5 +6,7 @@ class Program
     {
         TodoManager manager = new TodoManager();
         await manager.Load();
+        manager.DisplayTodos();
+        await manager.PromptOperation();
     }
 }

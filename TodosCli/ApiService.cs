@@ -1,5 +1,4 @@
 ﻿using System.Net.Http.Json;
-using TodosCli.Records;
 
 namespace TodosCli;
 
@@ -32,6 +31,24 @@ public class ApiService
         }
 
         return todos ?? new List<Todo>();
+    }
+
+    public async Task<Todo?> AddTodo(Todo newTodo)
+    {
+        try
+        {
+            using var response = await _httpClient.PostAsJsonAsync("/todos", newTodo);
+            response.EnsureSuccessStatusCode();
+
+            var todo = await response.Content.ReadFromJsonAsync<Todo>();
+            return todo;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+
+        return null;
     }
 
     // properties
