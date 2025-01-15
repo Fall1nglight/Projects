@@ -6,7 +6,6 @@ public class TodoManager
 {
     // fields
     private readonly ApiService _apiService;
-    private readonly DateTimeOffset _dto;
     private List<Todo> _todos;
 
     // constructors
@@ -14,7 +13,6 @@ public class TodoManager
     {
         _apiService = new ApiService();
         _todos = new List<Todo>();
-        _dto = new DateTimeOffset();
     }
 
     // methods
@@ -79,7 +77,7 @@ public class TodoManager
 
             case 4:
             {
-                DeleteTodo();
+                await DeleteTodo();
                 break;
             }
 
@@ -128,23 +126,51 @@ public class TodoManager
             description,
             importance,
             deadline.ToUnixTimeSeconds(),
-            _dto.ToUnixTimeSeconds()
+            DateTimeOffset.UtcNow.ToUnixTimeSeconds()
         );
 
         var result = await _apiService.AddTodo(newTodo);
 
-        if (result != null)
-            _todos.Add(result);
+        if (result == null)
+        {
+            Console.WriteLine("Failed to add TODO.");
+            return;
+        }
+
+        _todos.Add(result);
     }
 
     private int GetNextId()
     {
-        return int.Parse(_todos.Last().Id) + 1;
+        if (_todos.Count > 0)
+            return int.Parse(_todos.Last().Id) + 1;
+
+        return 1;
     }
 
     private void UpdateTodo() { }
 
-    private void DeleteTodo() { }
+    private async Task DeleteTodo()
+    {
+        Console.Write("ID of the TODO to delete > ");
+        var id = int.Parse(Console.ReadLine()!);
+
+        if (_todos.Find(t => int.Parse(t.Id) == id) == null)
+        {
+            Console.WriteLine("Invalid TODO id.");
+            return;
+        }
+
+        var result = await _apiService.DeleteTodo(id);
+
+        if (result == null)
+        {
+            Console.WriteLine("Failed to delete TODO.");
+            return;
+        }
+
+        _todos.RemoveAll(t => string.Compare(t.Id, result.Id, StringComparison.Ordinal) == 1);
+    }
 
     // propertied
     public List<Todo> Todos => _todos;
