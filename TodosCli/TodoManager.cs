@@ -1,5 +1,8 @@
 ﻿// ReSharper disable ConvertToAutoProperty
 
+using System.Text;
+using System.Text.Json;
+
 namespace TodosCli;
 
 public class TodoManager
@@ -71,7 +74,7 @@ public class TodoManager
 
             case 3:
             {
-                UpdateTodo();
+                await UpdateTodo();
                 break;
             }
 
@@ -114,7 +117,7 @@ public class TodoManager
         Console.Write("Description: ");
         var description = Console.ReadLine()!;
 
-        Console.Write("Importance (1-3): ");
+        Console.Write("Importance: ");
         var importance = int.Parse(Console.ReadLine()!);
 
         Console.Write("Deadline (yyyy-MM-dd): ");
@@ -148,7 +151,41 @@ public class TodoManager
         return 1;
     }
 
-    private void UpdateTodo() { }
+    private async Task UpdateTodo()
+    {
+        var (todoId, fieldId, newVal) = PromptUpdatabeField();
+        var newField = GetNewFieldAsJson(fieldId, newVal);
+
+        if (newField == null)
+        {
+            Console.WriteLine("Invalid field ID.");
+            return;
+        }
+
+        try
+        {
+            var result = await _apiService.UpdateTodo(todoId, newField);
+
+            if (result == null)
+            {
+                Console.WriteLine("Failed to update TODO.");
+                return;
+            }
+
+            for (var i = 0; i < _todos.Count; i++)
+            {
+                if (string.CompareOrdinal(_todos[i].Id, result.Id) == 0)
+                {
+                    _todos[i] = result;
+                    break;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
 
     private async Task DeleteTodo()
     {
@@ -169,7 +206,68 @@ public class TodoManager
             return;
         }
 
-        _todos.RemoveAll(t => string.Compare(t.Id, result.Id, StringComparison.Ordinal) == 1);
+        _todos.RemoveAll(t => string.Compare(t.Id, result.Id, StringComparison.Ordinal) == 0);
+    }
+
+    private (int, int, string) PromptUpdatabeField()
+    {
+        Console.WriteLine("TODO id > ");
+        var todoId = int.Parse(Console.ReadLine()!);
+
+        Console.WriteLine("Which field would you like to update?");
+        Console.WriteLine("[1] Name");
+        Console.WriteLine("[2] Description");
+        Console.WriteLine("[3] Importance");
+        Console.WriteLine("[4] Finished");
+        Console.WriteLine("[5] Deadline");
+
+        Console.Write("> ");
+        var fieldId = int.Parse(Console.ReadLine()!);
+
+        Console.Write("Enter new value > ");
+        var newVal = Console.ReadLine()!;
+
+        return (todoId, fieldId, newVal);
+    }
+
+    private StringContent? GetNewFieldAsJson(int fieldId, string newVal)
+    {
+        return fieldId switch
+        {
+            1 => new StringContent(
+                JsonSerializer.Serialize(new { name = newVal }),
+                Encoding.UTF8,
+                "application/json"
+            ),
+
+            2 => new StringContent(
+                JsonSerializer.Serialize(new { description = newVal }),
+                Encoding.UTF8,
+                "application/json"
+            ),
+
+            3 => new StringContent(
+                JsonSerializer.Serialize(new { importance = int.Parse(newVal) }),
+                Encoding.UTF8,
+                "application/json"
+            ),
+
+            4 => new StringContent(
+                JsonSerializer.Serialize(new { finished = bool.Parse(newVal) }),
+                Encoding.UTF8,
+                "application/json"
+            ),
+
+            5 => new StringContent(
+                JsonSerializer.Serialize(
+                    new { deadline = DateTimeOffset.Parse(newVal).ToUnixTimeSeconds() }
+                ),
+                Encoding.UTF8,
+                "application/json"
+            ),
+
+            _ => null,
+        };
     }
 
     // propertied

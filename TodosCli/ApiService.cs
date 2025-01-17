@@ -69,5 +69,23 @@ public class ApiService
         return null;
     }
 
+    public async Task<Todo?> UpdateTodo(int id, StringContent newField)
+    {
+        try
+        {
+            using var response = await _httpClient.PatchAsync($"{_uriPath}/{id}", newField);
+            response.EnsureSuccessStatusCode();
+
+            var updatedTodo = await response.Content.ReadFromJsonAsync<Todo>();
+            return updatedTodo;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+
+        return null;
+    }
+
     // properties
 }
